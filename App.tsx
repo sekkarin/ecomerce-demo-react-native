@@ -1,12 +1,11 @@
 import React from 'react';
 import {useThemeMode} from '@rneui/themed';
-
 import {ThemeProvider} from '@rneui/themed';
 import {theme} from './theme';
 import {useColorScheme} from 'react-native';
 import type {ThemeMode} from '@rneui/themed';
 import Splash from './screens/Splash';
-import Home from './screens/Home';
+import OnboardingSceen from './screens/OnboardingSceen';
 
 function App(): JSX.Element {
   return (
@@ -27,6 +26,6 @@ const Main = () => {
 
   const [isloading, setIsloading] = React.useState<boolean>(true);
 
-  return isloading ? <Splash setIsloading={setIsloading} /> : <Home />;
+  return isloading ? <Splash setIsloading={setIsloading} /> : <OnboardingSceen />;
 };
 export default App;

@@ -1,13 +1,9 @@
-import {Text} from '@rneui/base';
-import React from 'react';
-import {View} from 'react-native';
+import React from 'react'
 
 const Home = () => {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
-  );
-};
+    <div>Home</div>
+  )
+}
 
-export default Home;
+export default Home
