@@ -1,31 +1,36 @@
 import React from 'react';
-import {useThemeMode} from '@rneui/themed';
-import {ThemeProvider} from '@rneui/themed';
-import {theme} from './theme';
-import {useColorScheme} from 'react-native';
-import type {ThemeMode} from '@rneui/themed';
+import { useThemeMode } from '@rneui/themed';
+import { ThemeProvider } from '@rneui/themed';
+import { theme } from './theme';
+import { useColorScheme } from 'react-native';
+import type { ThemeMode } from '@rneui/themed';
 import Splash from './screens/Splash';
-import OnboardingSceen from './screens/OnboardingSceen';
+import Navigation from './navigation/Navigation';
+import OnboardingSceen from './screens/OnboardingScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NavigationContainer } from '@react-navigation/native';
 
 function App(): JSX.Element {
   return (
     <ThemeProvider theme={theme}>
-      <Main />
+      <Setup />
     </ThemeProvider>
   );
 }
 
-const Main = () => {
-  const colorMode = useColorScheme();
-  const {setMode} = useThemeMode();
+const Setup = () => {
 
+  const [isloading, setIsloading] = React.useState<boolean>(true);
+  const colorMode = useColorScheme();
+  const { setMode } = useThemeMode();
   React.useEffect(() => {
     setMode(colorMode as ThemeMode);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorMode]);
 
-  const [isloading, setIsloading] = React.useState<boolean>(true);
-
-  return isloading ? <Splash setIsloading={setIsloading} /> : <OnboardingSceen />;
+  if (isloading) {
+    return <Splash setIsloading={setIsloading} />;
+  }
+  return <Navigation />;
 };
 export default App;

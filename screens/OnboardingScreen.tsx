@@ -2,9 +2,11 @@
 import {Button, Image} from '@rneui/base';
 import {useTheme} from '@rneui/themed';
 import React from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {View} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-import type {DotProps,TextStyle} from 'react-native-onboarding-swiper';
+import type {DotProps, TextStyle} from 'react-native-onboarding-swiper';
+import {useNavigation} from '@react-navigation/native';
 
 const Dots = ({selected}: DotProps) => {
   const {theme} = useTheme();
@@ -63,20 +65,31 @@ const Next = ({...props}: any[]) => {
 };
 const OnboardingSceen = () => {
   const {theme} = useTheme();
+  const navigation = useNavigation();
   return (
-    <View style={{flex: 1, alignContent: 'center', margin: 0,justifyContent:'center'}}>
+    <View
+      style={{
+        flex: 1,
+        alignContent: 'center',
+        margin: 0,
+        justifyContent: 'center',
+      }}>
       <Onboarding
         containerStyles={{backgroundColor: theme.colors.background}}
         bottomBarColor={theme.colors.background}
         bottomBarHeight={100}
         DotComponent={Dots}
+        onDone={() => {
+          AsyncStorage.setItem('alreadyLaunched', 'true');
+          navigation.navigate('AuthNavigation');
+        }}
         SkipButtonComponent={Skip}
         NextButtonComponent={Next}
         titleStyles={{
           color: theme.colors.black,
           fontSize: 24,
           fontWeight: 'bold',
-          fontFamily:'Prompt-Bold'
+          fontFamily: 'Prompt-Bold',
         }}
         subTitleStyles={{
           color: theme.colors.black,

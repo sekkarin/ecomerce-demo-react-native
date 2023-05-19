@@ -1,9 +1,8 @@
-import React from 'react'
+import {Text} from '@rneui/base';
+import React from 'react';
 
 const Home = () => {
-  return (
-    <div>Home</div>
-  )
-}
+  return <Text>Home</Text>;
+};
 
-export default Home
+export default Home;
