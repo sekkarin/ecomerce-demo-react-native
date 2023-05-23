@@ -4,7 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Home from '../screens/Home';
 import OnboardingSceen from '../screens/OnboardingScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import LoginScreen from '../screens/LoginScreen';
+import LoginScreen from '../screens/SigninScreen';
 import AuthNavigation from './AuthNavigation';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {

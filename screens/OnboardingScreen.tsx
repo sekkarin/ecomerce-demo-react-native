@@ -34,7 +34,7 @@ const Skip = ({...props}: any[]) => {
       titleStyle={{
         color: theme.colors.black,
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: 'Prompt-SemiBold',
       }}
       color={theme.colors.background}
       {...props}
@@ -57,7 +57,7 @@ const Next = ({...props}: any[]) => {
       titleStyle={{
         color: theme.colors.white,
         fontSize: 18,
-        fontWeight: 'bold',
+        fontFamily: 'Prompt-SemiBold',
       }}
       color={theme.colors.secondary}
     />
@@ -88,13 +88,12 @@ const OnboardingSceen = () => {
         titleStyles={{
           color: theme.colors.black,
           fontSize: 24,
-          fontWeight: 'bold',
-          fontFamily: 'Prompt-Bold',
+          fontFamily: 'Prompt-Regular',
         }}
         subTitleStyles={{
           color: theme.colors.black,
           fontSize: 16,
-          fontWeight: '500',
+          fontFamily: 'Prompt-Light',
         }}
         pages={[
           {
