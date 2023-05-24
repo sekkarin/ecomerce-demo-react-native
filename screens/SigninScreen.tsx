@@ -1,18 +1,22 @@
 import {View, Text, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import FlexBetween from '../components/FlexBetween';
 import {Icon, Image} from '@rneui/base';
 import {useTheme} from '@rneui/themed';
 import FormLogin from '../components/FormLogin';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
-import {PropsNavigation} from '../navigation/AuthNavigation';
-import {useSelector} from 'react-redux';
-import type {RootState} from '../store';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Loading from '../components/Loading';
+import {RootStackParamListAuth} from '../navigation/AuthNavigation';
 
-const LoginScreen = ({navigation}: PropsNavigation) => {
+type Props = NativeStackScreenProps<RootStackParamListAuth, 'LoginScreen'>;
+
+const LoginScreen = ({navigation}: Props) => {
   const {theme} = useTheme();
-  const data = useSelector((state: RootState) => state.token);
-  console.log('Signin ', data);
+  const [isLoading, setIsloading] = useState(false);
+  if (isLoading) {
+    return <Loading isLoading={isLoading} />;
+  }
   return (
     <KeyboardAvoidWrapper>
       <FlexBetween>
@@ -20,7 +24,7 @@ const LoginScreen = ({navigation}: PropsNavigation) => {
           style={{width: 200, height: 200, marginTop: '10%'}}
           source={require('../assets/image/online-shopping.png')}
         />
-        <FormLogin />
+        <FormLogin setIsloading={setIsloading} />
       </FlexBetween>
       <View style={{flex: 1}}>
         <Text

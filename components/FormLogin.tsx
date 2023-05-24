@@ -1,12 +1,8 @@
 // TODO:FormLogin
 // [❌] show password and hide password in Input
-// [❌] oAuth2
-// [❌] not router
-// [✔️] Crate UI
-
 import {View, Text} from 'react-native';
-import React, {useState} from 'react';
-import {Input, Button, useTheme, Icon} from '@rneui/themed';
+import React, {Dispatch, SetStateAction, useState} from 'react';
+import {Input, Button, useTheme} from '@rneui/themed';
 import {Formik} from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
@@ -14,8 +10,12 @@ import {URL_API} from '@env';
 import jwt_decode from 'jwt-decode';
 import {useDispatch} from 'react-redux';
 import Snackbar from 'react-native-snackbar';
-
+import {useNavigation} from '@react-navigation/native';
 import {authSlice} from '../store/authSlice';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {RootStackParamList} from '../navigation/Navigation';
+import {RootStackParamListProduct} from '../navigation/ProductNavigation';
 export interface IinitialLogin {
   username: string;
   password: string;
@@ -27,52 +27,56 @@ interface IDecodedToken {
   // whatever else is in the JWT.
 }
 const initialLogin: IinitialLogin = {
-  username: '',
-  password: '',
+  username: 'mor_2314',
+  password: '83r5^_',
 };
 
 const loginSchema = yup.object().shape({
   username: yup.string().required('โปรดป้อนชื่อผู้ใช้'),
   password: yup.string().required('โปรดป้อนรหัสผ่าน'),
 });
-// username: 'mor_2314',
-//       password: '83r5^_',
-const FormLogin = () => {
+
+type ProfileScreenNavigationProp = CompositeNavigationProp<
+  NativeStackNavigationProp<RootStackParamList, 'ProductNavigation'>,
+  NativeStackNavigationProp<RootStackParamListProduct>
+>;
+interface Props {
+  setIsloading: Dispatch<SetStateAction<boolean>>;
+}
+const FormLogin = ({setIsloading}: Props) => {
+  const navigation = useNavigation<ProfileScreenNavigationProp>();
   const [hidePass, setHidePass] = useState(true);
   const dispatch = useDispatch();
   const SigninHandler = async (valuse: IinitialLogin) => {
-    // setIsloading(true);
-    console.log('start');
-    const res = await axios
-      .post(`${URL_API}/auth/login`, {
+    try {
+      setIsloading(true);
+      const res = await axios.post(`${URL_API}/auth/login`, {
         username: valuse.username,
         password: valuse.password,
-      })
-      .catch(error => {
-        // console.log(error);
-        Snackbar.show({
-          text: 'การเข้าสู่ระบบไม่ถูกต้อง',
-          duration: Snackbar.LENGTH_LONG,
-          marginBottom:20,
-          backgroundColor:theme.colors.warning,
-          fontFamily:"Prompt-Medium",
-          textColor:theme.colors.primary,
-        });
       });
 
-    // console.log(res.statusText);
-
-    if (res.status === 200) {
-      // navigation.navigate('LoginScreen');
-      const decodedToken = jwt_decode<IDecodedToken>(res.data.token);
-      dispatch(
-        authSlice.actions.setLogin({
-          token: res.data.token,
-          user: decodedToken.user,
-        }),
-      );
-    } else {
-      console.log(res.data, 'status', res.status);
+      if (res.status === 200) {
+        setIsloading(false);
+        const decodedToken = jwt_decode<IDecodedToken>(res.data.token);
+        dispatch(
+          authSlice.actions.setLogin({
+            token: res.data.token,
+            user: decodedToken.user,
+          }),
+        );
+      } else {
+        console.log(res.data, 'status', res.status);
+      }
+    } catch (error) {
+      console.log(error);
+      Snackbar.show({
+        text: 'เกิดข้อผิดพลาดในการเรียกใช้ API',
+        duration: Snackbar.LENGTH_LONG,
+        marginBottom: 20,
+        backgroundColor: theme.colors.warning,
+        fontFamily: 'Prompt-Medium',
+        textColor: theme.colors.primary,
+      });
     }
   };
   const {theme} = useTheme();
@@ -182,6 +186,3 @@ const FormLogin = () => {
 };
 
 export default FormLogin;
-// function setLogin(arg0: {user: any; token: any; sub: any}): any {
-//   throw new Error('Function not implemented.');
-// }

@@ -2,7 +2,7 @@ import {createSlice} from '@reduxjs/toolkit';
 
 const initialState = {
   sub: null,
-  user: '',
+  user: null,
   token: null,
   // iat 1684838366
 };
@@ -16,7 +16,8 @@ export const authSlice = createSlice({
     },
     setLogout: state => {
       state.token = null;
-      state.user = '';
+      state.user = null;
+      console.log('  state.token', state.token, '  state.user', state.user);
     },
   },
 });

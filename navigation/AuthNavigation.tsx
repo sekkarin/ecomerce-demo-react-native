@@ -1,37 +1,31 @@
 import React from 'react';
 // import {NavigationContainer} from '@react-navigation/native';
-import {
-  NativeStackScreenProps,
-  createNativeStackNavigator,
-} from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from '../screens/SigninScreen';
 import SignUpScreen from '../screens/SignupScreen';
-type RootStackParamList = {
+import {useSelector} from 'react-redux';
+import {RootState} from '../store';
+import Home from '../screens/Home';
+export type RootStackParamListAuth = {
   LoginScreen: undefined;
   SignUpScreen: undefined;
 };
-export type PropsNavigation = NativeStackScreenProps<
-  RootStackParamList,
-  'LoginScreen',
-  'SignUpScreen'
->;
-
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamListAuth>();
 function AuthNavigation() {
+  const isAuth = useSelector<RootState>(state => state.token);
+  // console.log(auth);
   return (
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
-        animation:'none'
+        animation: 'none',
       }}>
       <Stack.Screen
         name="LoginScreen"
-        component={LoginScreen}
+        component={isAuth ? Home : LoginScreen}
       />
-      <Stack.Screen
-        name="SignUpScreen"
-        component={SignUpScreen}
-      />
+      {/* <Stack.Screen name="HomeScreen" component={isAuth ? Home : LoginScreen} /> */}
+      <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
     </Stack.Navigator>
   );
 }

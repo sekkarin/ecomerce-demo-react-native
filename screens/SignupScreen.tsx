@@ -3,13 +3,14 @@ import React, {useState} from 'react';
 import FlexBetween from '../components/FlexBetween';
 import {Icon, Image} from '@rneui/base';
 import {useTheme} from '@rneui/themed';
-import FormLogin from '../components/FormLogin';
 import KeyboardAvoidWrapper from '../components/KeyboardAvoidWrapper';
 import FormSignup from '../components/FormSignup';
 import Loading from '../components/Loading';
-import {PropsNavigation} from '../navigation/AuthNavigation';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {RootStackParamListAuth} from '../navigation/AuthNavigation';
 
-const SignUpScreen = ({navigation}: PropsNavigation) => {
+type Props = NativeStackScreenProps<RootStackParamListAuth, 'LoginScreen'>;
+const SignUpScreen = ({navigation}: Props) => {
   const [isLoading, setIsloading] = useState(false);
   const {theme} = useTheme();
 
@@ -57,7 +58,7 @@ const SignUpScreen = ({navigation}: PropsNavigation) => {
             color={theme.colors.secondary}
           />
         </View>
-        <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
+        <TouchableOpacity onPress={() => navigation.navigate('LoginScreen')}>
           <Text
             style={{
               fontSize: 18,
@@ -66,7 +67,7 @@ const SignUpScreen = ({navigation}: PropsNavigation) => {
               textAlign: 'center',
               paddingVertical: 20,
             }}>
-            มีบัญชีแล้วรึยัง? สมัครสมาชิก
+            มีบัญชีแล้วรึยัง? เข้าสู่ระบบ
           </Text>
         </TouchableOpacity>
       </View>
